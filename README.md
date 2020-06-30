@@ -13,7 +13,7 @@
 https://docs.google.com/document/d/15UzOEW1eBvZoYSaAv8tZZmyHuoQ9L5amEK9oyFmQ78k/edit?usp=sharing
 
 
-# Presentaion Video
+# Presention Video
 <p> present your project in a 10 minute video, upload it on the course website and edit README.md and add your presentaion link below (instead of ``YOUR_VIDEO_URL``) </p>
 [Project Description]('YOUR_VIDEO_URL')
 
