@@ -21,6 +21,11 @@ https://docs.google.com/spreadsheets/d/13hfPnZXXeRCGpBRDgzk2ZHdQksOMrZpkeWKld0OT
 you can use [map builder code](http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/blob/master/src/main/resources/map-builder/index.html) to create awesome maps.
 also you can parse html file in your java code, to parse map from file. 
 
+## Main Map 
+<!--[](http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/blob/master/images/main-map.jpg)-->
+<!--<img src="http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/blob/master/images/main-map.jpg" alt="main map image url"/>-->
+![main map image](/images/main-map.jpg?raw=true)
+
 
 # Presention Video
 <p> present your project in a 10 minute video, upload it on the course website and edit README.md and add your presentaion link below (instead of ``YOUR_VIDEO_URL``) </p>
