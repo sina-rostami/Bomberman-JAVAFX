@@ -24,7 +24,7 @@ also you can parse html file in your java code, to parse map from file.
 ## Main Map 
 <!--[](http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/blob/master/images/main-map.jpg)-->
 <!--<img src="http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/blob/master/images/main-map.jpg" alt="main map image url"/>-->
-![main map image](/images/main-map.jpg?raw=true)
+<div align=center> ![main map image](/images/main-map-hq.jpg?raw=true) </div>
 
 
 # Presention Video
