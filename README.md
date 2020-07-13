@@ -14,6 +14,7 @@ https://docs.google.com/document/d/15UzOEW1eBvZoYSaAv8tZZmyHuoQ9L5amEK9oyFmQ78k/
 
 # Assests
 You can use these to create graphical components. 
+it can be found in /src/main/resources/assets directory
 https://docs.google.com/spreadsheets/d/13hfPnZXXeRCGpBRDgzk2ZHdQksOMrZpkeWKld0OTJIk/edit#gid=0
 
 
