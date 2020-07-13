@@ -14,8 +14,12 @@ https://docs.google.com/document/d/15UzOEW1eBvZoYSaAv8tZZmyHuoQ9L5amEK9oyFmQ78k/
 
 # Assests
 You can use these to create graphical components. 
-it can be found in /src/main/resources/assets directory
+it can be found in [/src/main/resources/assets](http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/tree/master/src/main/resources/assets) directory
 https://docs.google.com/spreadsheets/d/13hfPnZXXeRCGpBRDgzk2ZHdQksOMrZpkeWKld0OTJIk/edit#gid=0
+
+## Map Builder
+you can use [map builder code](http://apj.ce.kntu.ac.ir/git/root/hw5-fariborz-bomberman-starter/-/blob/master/src/main/resources/map-builder/index.html) to create awesome maps.
+also you can parse html file in your java code, to parse map from file. 
 
 
 # Presention Video
