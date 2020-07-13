@@ -1,0 +1,71 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+#main{
+    margin: 0px auto;
+    position: relative;
+    height: 100vh;
+}
+.board{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: url(../assets/map/normal.png) repeat;
+    background-size: 50px 50px;
+    .row{
+        display: flex;
+        .cell{
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ccc;
+            
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center center;
+            &.wall{
+                background-image: url(../assets/map/wall.png);
+            }
+            &.bomb{
+                background-image: url(../assets/map/bomb.png);
+            }
+            &.powerup{
+                background-image: url(../assets/map/powerup.png);
+            }
+            &.breaking{
+                background-image: url(../assets/map/block_breaking.png);
+            }
+            &.block{
+                background-image: url(../assets/map/block.png);
+            }
+            &.player1{
+                background-image: url(../assets/player/player_down_standing.png);
+            }
+            &.player2{
+                background-image: url(../assets/player_black/player_black_down_standing.png);
+            }
+            &.player3{
+                background-image: url(../assets/player_red/player_red_down-Standing.png);
+            }
+            &.player4{
+                background-image: url(../assets/player_yellow/player_yellow_down_standing.png);
+            }
+            &.oneway_down{
+                background-image: url(../assets/map/oneway/oneway_down.png);
+            }
+            &.oneway_up{
+                background-image: url(../assets/map/oneway/oneway_up.png);
+            }
+            &.oneway_left{
+                background-image: url(../assets/map/oneway/oneway_left.png);
+            }
+            &.oneway_right{
+                background-image: url(../assets/map/oneway/oneway_right.png);
+            }
+
+        }
+    }
+
+}

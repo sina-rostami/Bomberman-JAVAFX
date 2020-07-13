@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="main">
+        <div class="board"></div>
+    </div>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(() => {
+            var board = [
+
+                ['w','w','w','w','w','w','w','w','w','w','w','w', 'w', 'w', 'w'],
+                ['w', '','r','','b','b','','','b','','b','b','','2', 'w'],
+                ['w','','w','b','w','b','w','b','w','b','w','b','w','','w'],
+                ['w','b','','b','p','b','','b','b','','','b','','b', 'w'],
+                ['w','b','w','','w','','w','b','w','','w','b','w','', 'w'],
+                ['w','','l','b','b','b','b','b','b','b','','u','b','b', 'w'],
+                ['w','','w','b','w','b','w','b','w','b','w','b','w','b','w'],
+                ['w','b','b','b','b','b','p','b','b','b','b','b','b','b','w'],
+                ['w','','w','b','w','b','w','b','w','b','w','b','w','','w'],
+                ['w','4','','b','b','b','b','','','','','b','','3','w'],
+                ['w','w','w','w','w','w','w','w','w','w','w','w','w', 'w', 'w'],
+            ];
+            print_board(board);
+        })
+    </script>
+</body>
+</html>
