@@ -91,7 +91,7 @@
                     <archive>
                         <!-- <manifestFile>${   project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile> -->
                         <manifest>
-                            <mainClass>ir.ac.kntu.JavaFxApplication</mainClass>
+                            <mainClass>ir.ac.kntu.Main</mainClass>
                         </manifest>
                     </archive>             
                 </configuration>
@@ -105,7 +105,7 @@
                     <release>${maven.compiler.release}</release>
                     <jlinkImageName>hellofx</jlinkImageName>
                     <launcher>hellofx</launcher>
-                    <mainClass>ir.ac.kntu.JavaFxApplication</mainClass>
+                    <mainClass>ir.ac.kntu.Main</mainClass>
                 </configuration>
             </plugin>
 
