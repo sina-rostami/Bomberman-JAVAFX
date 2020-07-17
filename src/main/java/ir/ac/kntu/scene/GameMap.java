@@ -65,8 +65,10 @@ public class GameMap implements Presentable {
             }
         }
         initPlayers();
+        initOtherItems();
     }
-    public void initPlayers() {
+
+    private void initOtherItems() {
         for (int i = 0; i < items.length; i++) {
             for (int j = 0; j < items[0].length; j++) {
                 Node temp = null;
@@ -75,6 +77,45 @@ public class GameMap implements Presentable {
                         temp = new ImageView(new Image("assets/map/wall.png"));
                         walls.add(temp);
                         break;
+                    case 5:
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_up.png"));
+                        oneWays.add(temp);
+                        break;
+                    case 6:
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_left.png"));
+                        oneWays.add(temp);
+                        break;
+                    case 10:
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_right.png"));
+                        oneWays.add(temp);
+                        break;
+                    case 11:
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_down.png"));
+                        oneWays.add(temp);
+                        break;
+                    case 7:
+                        temp = new ImageView(new Image("assets/map/powerup.png"));
+                        powerUps.add(temp);
+                        break;
+                    case 8:
+                        temp = new ImageView(new Image("assets/map/block.png"));
+                        blocks.add(temp);
+                        break;
+                    default:
+                        break;
+                }
+                if(temp != null) {
+                    pane.add(temp, j, i);
+                }
+            }
+        }
+    }
+
+    public void initPlayers() {
+        for (int i = 0; i < items.length; i++) {
+            for (int j = 0; j < items[0].length; j++) {
+                Node temp = null;
+                switch (items[i][j]) {
                     case 1:
                         temp = new ImageView(new Image("assets/player/player_down_standing.png"));
                         players.add(new Player(1, pane, scene, temp));
@@ -90,30 +131,6 @@ public class GameMap implements Presentable {
                     case 4:
                         temp = new ImageView(new Image("assets/player_yellow/player_yellow_down_standing.png"));
                         players.add(new Player(4, pane, scene, temp));
-                        break;
-                    case 5:
-                        temp = new ImageView(new Image("assets/map/oneway/oneway_up.png"));
-                        oneWays.add(temp);
-                        break;
-                    case 6:
-                        temp = new ImageView(new Image("assets/map/oneway/oneway_left.png"));
-                        oneWays.add(temp);
-                        break;
-                    case 7:
-                        temp = new ImageView(new Image("assets/map/powerup.png"));
-                        powerUps.add(temp);
-                        break;
-                    case 8:
-                        temp = new ImageView(new Image("assets/map/block.png"));
-                        blocks.add(temp);
-                        break;
-                    case 10:
-                        temp = new ImageView(new Image("assets/map/oneway/oneway_right.png"));
-                        oneWays.add(temp);
-                        break;
-                    case 11:
-                        temp = new ImageView(new Image("assets/map/oneway/oneway_down.png"));
-                        oneWays.add(temp);
                         break;
                     default:
                         break;
