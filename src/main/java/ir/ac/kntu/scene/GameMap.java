@@ -15,13 +15,13 @@ import java.util.Scanner;
 
 public class GameMap implements Presentable {
     private int[][] items;
-    private final GridPane pane;
-    private final ArrayList<Player> players;
-    private final ArrayList<Node> blocks;
-    private final ArrayList<Node> walls;
-    private final ArrayList<Node> powerUps;
-    private final ArrayList<Node> oneWays;
-    private final Scene scene;
+    private  GridPane pane;
+    private  ArrayList<Player> players;
+    private  ArrayList<Node> blocks;
+    private  ArrayList<Node> walls;
+    private  ArrayList<Node> powerUps;
+    private  ArrayList<Node> oneWays;
+    private  Scene scene;
 
     public GameMap() {
         players = new ArrayList<>();
@@ -30,6 +30,8 @@ public class GameMap implements Presentable {
         powerUps = new ArrayList<>();
         oneWays = new ArrayList<>();
         pane = new GridPane();
+        pane.setVgap(1);
+        pane.setHgap(1);
         loadMapFromFile();
         initBackGround();
         scene = new Scene(pane,  Color.WHITE);

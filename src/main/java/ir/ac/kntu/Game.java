@@ -42,11 +42,12 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+
         stage.setScene(scene);
         stage.initStyle(StageStyle.DECORATED);
         stage.setTitle("Fariborz Bobmerman");
-
         stage.show();
+
     }
 
     public void initScene() {

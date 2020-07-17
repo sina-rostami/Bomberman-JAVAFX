@@ -1,5 +1,7 @@
 package ir.ac.kntu.items;
 
+import ir.ac.kntu.util.Direction;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -12,11 +14,13 @@ import java.util.List;
 
 
 public class Player {
-    private final Scene scene;
-    private final GridPane pane;
+    private Scene scene;
+    private GridPane pane;
     private Node node;
-    private final List<KeyCode> keys;
-    private final String rootAddress = "assets/";
+    private int rowIndex;
+    private int columnIndex;
+    private List<KeyCode> keys;
+    private String rootAddress = "assets/";
     private String address;
     private String name;
     private String state;
@@ -33,12 +37,7 @@ public class Player {
         makeName();
         state = "down_standing";
         address = rootAddress + name + state + ".png";
-//        img = new Image(address);
-//        iv = new ImageView(img);
         initKeys();
-//        iv.setX(100);
-//        iv.setY(100);
-//        pane.getChildren().add(iv);
     }
 
     private void initKeys() {
@@ -90,13 +89,45 @@ public class Player {
 
     }
 
-    public void change() {
-        state = "right_moving";
+    public void change(Direction dir) {
+        switch (dir) {
+            case UP:
+                --rowIndex;
+                break;
+            case DOWN:
+                ++rowIndex;
+                break;
+            case LEFT:
+                --columnIndex;
+                break;
+            case RIGHT:
+                ++columnIndex;
+                break;
+            default:
+                break;
+        }
+        setState(dir);
         address = rootAddress + name + state + ".png";
-        pane.getChildren().remove(node);
         node = new ImageView(new Image(address));
-        pane.getChildren().add(node);
+    }
 
+    private void setState(Direction dir) {
+        switch (dir) {
+            case UP:
+                state = "up_moving";
+                break;
+            case DOWN:
+                state = "down_moving";
+                break;
+            case LEFT:
+                state = "left_moving";
+                break;
+            case RIGHT:
+                state = "right_moving";
+                break;
+            default:
+                break;
+        }
     }
 
     public ArrayList<KeyCode> getKeys() {
@@ -104,14 +135,21 @@ public class Player {
     }
 
     public void handleMove(KeyCode temp) {
+        rowIndex = pane.getRowIndex(node);
+        columnIndex = pane.getColumnIndex(node);
+        pane.getChildren().remove(node);
         if (temp.equals(keys.get(0))) {
-            iv.setY(iv.getY() - 5);
+            change(Direction.UP);
+            pane.add(node, columnIndex, rowIndex);
         } else if (temp.equals(keys.get(1))) {
-            iv.setX(iv.getX() + 5);
+            change(Direction.RIGHT);
+            pane.add(node, columnIndex, rowIndex);
         } else if (temp.equals(keys.get(2))) {
-            iv.setY(iv.getY() + 5);
+            change(Direction.DOWN);
+            pane.add(node, columnIndex, rowIndex);
         } else if (temp.equals(keys.get(3))) {
-            iv.setX(iv.getX() - 5);
+            change(Direction.LEFT);
+            pane.add(node, columnIndex, rowIndex);
         } else {
             System.out.println("Wrong for player " + id);
         }
