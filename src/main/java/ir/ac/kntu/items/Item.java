@@ -22,6 +22,18 @@ public class Item {
 
     }
 
+    public int getRowIndex() {
+        return pane.getRowIndex(node);
+    }
+
+    public int getColumnIndex() {
+        return pane.getColumnIndex(node);
+    }
+
+    public void destroy() {
+        pane.getChildren().remove(node);
+    }
+
     public Node getNode() {
         return node;
     }
@@ -45,6 +57,7 @@ public class Item {
     public void setPassable(boolean passable) {
         isPassable = passable;
     }
+
     public GridPane getPane() {
         return pane;
     }

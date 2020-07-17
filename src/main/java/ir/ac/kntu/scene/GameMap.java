@@ -1,6 +1,7 @@
 package ir.ac.kntu.scene;
 
-import ir.ac.kntu.items.Player;
+import ir.ac.kntu.items.*;
+import ir.ac.kntu.util.Direction;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -17,10 +18,10 @@ public class GameMap implements Presentable {
     private int[][] items;
     private GridPane pane;
     private ArrayList<Player> players;
-    private ArrayList<Node> blocks;
-    private ArrayList<Node> walls;
-    private ArrayList<Node> powerUps;
-    private ArrayList<Node> oneWays;
+    private ArrayList<Block> blocks;
+    private ArrayList<Wall> walls;
+    private ArrayList<PowerUp> powerUps;
+    private ArrayList<OneWay> oneWays;
     private Scene scene;
 
     public GameMap() {
@@ -64,31 +65,31 @@ public class GameMap implements Presentable {
                 switch (items[i][j]) {
                     case 0:
                         temp = new ImageView(new Image("assets/map/wall.png"));
-                        walls.add(temp);
+                        walls.add(new Wall(pane, temp, false));
                         break;
                     case 5:
                         temp = new ImageView(new Image("assets/map/oneway/oneway_up.png"));
-                        oneWays.add(temp);
+                        oneWays.add(new OneWay(pane, temp, true, Direction.UP));
                         break;
                     case 6:
                         temp = new ImageView(new Image("assets/map/oneway/oneway_left.png"));
-                        oneWays.add(temp);
+                        oneWays.add(new OneWay(pane, temp, true, Direction.LEFT));
                         break;
                     case 10:
                         temp = new ImageView(new Image("assets/map/oneway/oneway_right.png"));
-                        oneWays.add(temp);
+                        oneWays.add(new OneWay(pane, temp, true, Direction.RIGHT));
                         break;
                     case 11:
                         temp = new ImageView(new Image("assets/map/oneway/oneway_down.png"));
-                        oneWays.add(temp);
+                        oneWays.add(new OneWay(pane, temp, true, Direction.DOWN));
                         break;
                     case 7:
                         temp = new ImageView(new Image("assets/map/powerup.png"));
-                        powerUps.add(temp);
+                        powerUps.add(new PowerUp(pane, temp, true));
                         break;
                     case 8:
                         temp = new ImageView(new Image("assets/map/block.png"));
-                        blocks.add(temp);
+                        blocks.add(new Block(pane, temp, false));
                         break;
                     default:
                         break;
@@ -151,19 +152,19 @@ public class GameMap implements Presentable {
         return players;
     }
 
-    public ArrayList<Node> getBlocks() {
+    public ArrayList<Block> getBlocks() {
         return blocks;
     }
 
-    public ArrayList<Node> getWalls() {
+    public ArrayList<Wall> getWalls() {
         return walls;
     }
 
-    public ArrayList<Node> getPowerUps() {
+    public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
     }
 
-    public ArrayList<Node> getOneWays() {
+    public ArrayList<OneWay> getOneWays() {
         return oneWays;
     }
 
