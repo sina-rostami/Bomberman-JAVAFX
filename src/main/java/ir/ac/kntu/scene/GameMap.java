@@ -15,13 +15,13 @@ import java.util.Scanner;
 
 public class GameMap implements Presentable {
     private int[][] items;
-    private  GridPane pane;
-    private  ArrayList<Player> players;
-    private  ArrayList<Node> blocks;
-    private  ArrayList<Node> walls;
-    private  ArrayList<Node> powerUps;
-    private  ArrayList<Node> oneWays;
-    private  Scene scene;
+    private GridPane pane;
+    private ArrayList<Player> players;
+    private ArrayList<Node> blocks;
+    private ArrayList<Node> walls;
+    private ArrayList<Node> powerUps;
+    private ArrayList<Node> oneWays;
+    private Scene scene;
 
     public GameMap() {
         players = new ArrayList<>();
@@ -32,28 +32,17 @@ public class GameMap implements Presentable {
         pane = new GridPane();
         pane.setVgap(1);
         pane.setHgap(1);
+        initMap();
+        scene = new Scene(pane, Color.WHITE);
+    }
+
+    private void initMap() {
         loadMapFromFile();
         initBackGround();
-        scene = new Scene(pane,  Color.WHITE);
+        initPlayers();
+        initOtherItems();
     }
 
-
-
-    public void loadMapFromFile() {
-        File file = new File("src/main/resources/maps/map1.txt");
-        if (file.exists()) {
-            try (Scanner in = new Scanner(file)) {
-                items = new int[in.nextInt()][in.nextInt()];
-                for (int i = 0; i < items.length; i++) {
-                    for (int j = 0; j < items[i].length; j++) {
-                        items[i][j] = in.nextInt();
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     @Override
     public Scene getScene() {
@@ -66,8 +55,6 @@ public class GameMap implements Presentable {
                 pane.add(new ImageView(new Image("assets/map/normal.png")), j, i);
             }
         }
-        initPlayers();
-        initOtherItems();
     }
 
     private void initOtherItems() {
@@ -106,7 +93,7 @@ public class GameMap implements Presentable {
                     default:
                         break;
                 }
-                if(temp != null) {
+                if (temp != null) {
                     pane.add(temp, j, i);
                 }
             }
@@ -120,26 +107,42 @@ public class GameMap implements Presentable {
                 switch (items[i][j]) {
                     case 1:
                         temp = new ImageView(new Image("assets/player/player_down_standing.png"));
-                        players.add(new Player(1, pane, scene, temp));
+                        players.add(new Player(1, pane, temp));
                         break;
                     case 2:
                         temp = new ImageView(new Image("assets/player_black/player_black_down_standing.png"));
-                        players.add(new Player(2, pane, scene, temp));
+                        players.add(new Player(2, pane, temp));
                         break;
                     case 3:
                         temp = new ImageView(new Image("assets/player_red/player_red_down_standing.png"));
-                        players.add(new Player(3, pane, scene, temp));
+                        players.add(new Player(3, pane, temp));
                         break;
                     case 4:
                         temp = new ImageView(new Image("assets/player_yellow/player_yellow_down_standing.png"));
-                        players.add(new Player(4, pane, scene, temp));
+                        players.add(new Player(4, pane, temp));
                         break;
                     default:
                         break;
                 }
-                if(temp != null) {
+                if (temp != null) {
                     pane.add(temp, j, i);
                 }
+            }
+        }
+    }
+
+    public void loadMapFromFile() {
+        File file = new File("src/main/resources/maps/map1.txt");
+        if (file.exists()) {
+            try (Scanner in = new Scanner(file)) {
+                items = new int[in.nextInt()][in.nextInt()];
+                for (int i = 0; i < items.length; i++) {
+                    for (int j = 0; j < items[i].length; j++) {
+                        items[i][j] = in.nextInt();
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
             }
         }
     }

@@ -3,7 +3,6 @@ package ir.ac.kntu.items;
 import ir.ac.kntu.util.Direction;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -13,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class Player {
-    private Scene scene;
+    private int id;
     private GridPane pane;
     private Node node;
     private int rowIndex;
@@ -26,12 +26,10 @@ public class Player {
     private String state;
     private ImageView iv;
     private Image img;
-    private final int id;
 
-    public Player(int id, GridPane pane, Scene scene, Node node) {
+    public Player(int id, GridPane pane, Node node) {
         this.id = id;
         this.pane = pane;
-        this.scene = scene;
         this.node = node;
         keys = new ArrayList<>();
         makeName();
@@ -84,9 +82,7 @@ public class Player {
                 break;
             default:
                 break;
-
         }
-
     }
 
     public void change(Direction dir) {
@@ -140,18 +136,37 @@ public class Player {
         pane.getChildren().remove(node);
         if (temp.equals(keys.get(0))) {
             change(Direction.UP);
-            pane.add(node, columnIndex, rowIndex);
         } else if (temp.equals(keys.get(1))) {
             change(Direction.RIGHT);
-            pane.add(node, columnIndex, rowIndex);
         } else if (temp.equals(keys.get(2))) {
             change(Direction.DOWN);
-            pane.add(node, columnIndex, rowIndex);
         } else if (temp.equals(keys.get(3))) {
             change(Direction.LEFT);
-            pane.add(node, columnIndex, rowIndex);
         } else {
             System.out.println("Wrong for player " + id);
         }
+        pane.add(node, columnIndex, rowIndex);
+
+
+
+        Runnable setDown = () -> {
+            state = "down_standing";
+            address = rootAddress + name + state + ".png";
+            pane.getChildren().remove(node);
+            node = new ImageView(new Image(address));
+            pane.add(node, columnIndex, rowIndex);
+        };
+
+
+        new Thread(() -> {
+            try {
+                Thread.sleep(200);
+                Platform.runLater(setDown);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+
     }
 }

@@ -17,12 +17,11 @@ public class Game extends Application {
     private List<Bomb> bombs;
     private List<Blcok> blocks;
     private List<Wall> walls;
-    private List<Normal> normals;
     private List<PowerUp> powerUps;
     private List<OneWay> oneWays;
-    private final GameMap gameMap;
+    private GameMap gameMap;
     private Menu menu;
-    private final Scene scene;
+    private Scene scene;
     private Pane pane;
     private Thread timer;
 
@@ -35,7 +34,6 @@ public class Game extends Application {
     }
 
     public static void main(String[] args) {
-
         launch(args);
     }
 
