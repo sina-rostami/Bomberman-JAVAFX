@@ -18,8 +18,8 @@ public class GameMap implements Presentable {
     private int[][] items;
     private GridPane pane;
     private ArrayList<Player> players;
-    private ArrayList<Item> blocks;
-    private ArrayList<Item> walls;
+    private ArrayList<Block> blocks;
+    private ArrayList<Wall> walls;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<OneWay> oneWays;
     private Scene scene;
@@ -135,9 +135,10 @@ public class GameMap implements Presentable {
 
     private void initPlayersLists() {
         for(Player p : players) {
-            p.addToItems(blocks);
-            p.addToItems(walls);
-            p.addToOneWays(oneWays);
+            p.setBlocks(blocks);
+            p.setWalls(walls);
+            p.setOneWays(oneWays);
+            p.setPlayers(players);
         }
     }
 
@@ -161,11 +162,11 @@ public class GameMap implements Presentable {
         return players;
     }
 
-    public ArrayList<Item> getBlocks() {
+    public ArrayList<Block> getBlocks() {
         return blocks;
     }
 
-    public ArrayList<Item> getWalls() {
+    public ArrayList<Wall> getWalls() {
         return walls;
     }
 

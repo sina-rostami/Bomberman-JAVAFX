@@ -19,12 +19,16 @@ public class Player {
     private int rowIndex;
     private int columnIndex;
     private List<KeyCode> keys;
-    private List<Item> imPassables;
+    private List<Wall> walls;
+    private List<Block> blocks;
     private List<OneWay> oneWays;
+    private List<Player> players;
     private String rootAddress = "assets/";
     private String address;
     private String name;
     private String state;
+    private int score;
+    private boolean isAlive;
     private ImageView iv;
     private Image img;
     private boolean hasActiveBomb;
@@ -33,9 +37,9 @@ public class Player {
         this.id = id;
         this.pane = pane;
         this.node = node;
+        score = 0;
+        isAlive = true;
         keys = new ArrayList<>();
-        imPassables = new ArrayList<>();
-        oneWays = new ArrayList<>();
         makeName();
         state = "down_standing";
         address = rootAddress + name + state + ".png";
@@ -72,6 +76,18 @@ public class Player {
 
     public Node getPlayer() {
         return iv;
+    }
+
+    public int getRowIndex() {
+        return rowIndex;
+    }
+
+    public int getColumnIndex() {
+        return columnIndex;
+    }
+
+    public void setKilled() {
+        isAlive = false;
     }
 
     private void makeName() {
@@ -148,8 +164,13 @@ public class Player {
     }
 
     private boolean thereIsImpassableItem(int columnIndex, int rowIndex, Direction dir) {
-        for (Item i : imPassables) {
+        for (Wall i : walls) {
             if (i.isAlive() && !i.isPassable() && i.getColumnIndex() == columnIndex && i.getRowIndex() == rowIndex) {
+                return true;
+            }
+        }
+        for (Block b : blocks) {
+            if (b.isAlive() && !b.isPassable() && b.getColumnIndex() == columnIndex && b.getRowIndex() == rowIndex) {
                 return true;
             }
         }
@@ -161,20 +182,20 @@ public class Player {
         return false;
     }
 
-    public void addToItems(ArrayList<Item> src) {
-        for (Item i : src) {
-            if (!imPassables.contains(i)) {
-                imPassables.add(i);
-            }
-        }
+    public void setWalls(ArrayList<Wall> src) {
+        walls = src;
     }
 
-    public void addToOneWays(ArrayList<OneWay> src) {
-        for(OneWay o : src) {
-            if(!oneWays.contains(o)) {
-                oneWays.add(o);
-            }
-        }
+    public void setBlocks(ArrayList<Block> src) {
+        blocks = src;
+    }
+
+    public void setOneWays(ArrayList<OneWay> src) {
+        oneWays = src;
+    }
+
+    public void setPlayers(ArrayList<Player> src) {
+        players = src;
     }
 
     private void setState(Direction dir) {
@@ -238,13 +259,16 @@ public class Player {
         if (hasActiveBomb) {
             return;
         }
-        Node bomb = new ImageView(new Image("assets/map/bomb.png"));
-        pane.add(bomb, columnIndex, rowIndex);
-        hasActiveBomb = true;
+
+        Bomb bomb = new Bomb(pane, players, blocks, walls, columnIndex, rowIndex);
         new Thread(() -> {
             try {
-                Thread.sleep(3000);
-                Platform.runLater(() -> pane.getChildren().remove(bomb));
+                hasActiveBomb = true;
+                bomb.setBomb();
+                Thread.sleep(2000);
+                bomb.explode();
+                Thread.sleep(1000);
+                bomb.clear();
                 hasActiveBomb = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();

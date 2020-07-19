@@ -10,13 +10,14 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends Application {
     private final List<Player> players;
     private List<Bomb> bombs;
-    private List<Item> blocks;
-    private List<Item> walls;
+    private List<Block> blocks;
+    private List<Wall> walls;
     private List<PowerUp> powerUps;
     private List<OneWay> oneWays;
     private GameMap gameMap;
@@ -30,12 +31,12 @@ public class Game extends Application {
         gameMap = new GameMap();
         scene = gameMap.getScene();
         pane = gameMap.getPane();
-        players = gameMap.getPlayers();
+        players = new ArrayList<>(gameMap.getPlayers());
         walls = gameMap.getWalls();
         blocks = gameMap.getBlocks();
         powerUps = gameMap.getPowerUps();
         oneWays = gameMap.getOneWays();
-        initScene();
+
 
     }
 
@@ -46,10 +47,16 @@ public class Game extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        initScene();
+        intiRandomObjects();
         stage.setScene(scene);
         stage.initStyle(StageStyle.DECORATED);
         stage.setTitle("Fariborz Bobmerman");
         stage.show();
+    }
+
+    private void intiRandomObjects() {
+
     }
 
     public void initScene() {

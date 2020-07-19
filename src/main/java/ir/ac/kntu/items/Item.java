@@ -1,5 +1,6 @@
 package ir.ac.kntu.items;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
@@ -31,7 +32,7 @@ public class Item {
     }
 
     public void destroy() {
-        pane.getChildren().remove(node);
+        Platform.runLater(() -> pane.getChildren().remove(node));
     }
 
     public Node getNode() {
