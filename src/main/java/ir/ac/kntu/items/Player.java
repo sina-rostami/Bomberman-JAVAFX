@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class Player {
     private int id;
     private GridPane pane;
@@ -44,21 +43,25 @@ public class Player {
             keys.add(KeyCode.RIGHT);
             keys.add(KeyCode.DOWN);
             keys.add(KeyCode.LEFT);
+            keys.add(KeyCode.SHIFT);
         } else if (id == 2) {
             keys.add(KeyCode.W);
             keys.add(KeyCode.D);
             keys.add(KeyCode.S);
             keys.add(KeyCode.A);
+            keys.add(KeyCode.Q);
         } else if (id == 3) {
             keys.add(KeyCode.NUMPAD8);
             keys.add(KeyCode.NUMPAD6);
             keys.add(KeyCode.NUMPAD5);
             keys.add(KeyCode.NUMPAD4);
+            keys.add(KeyCode.NUMPAD7);
         } else if (id == 4) {
             keys.add(KeyCode.I);
             keys.add(KeyCode.L);
             keys.add(KeyCode.K);
             keys.add(KeyCode.J);
+            keys.add(KeyCode.U);
         }
     }
 
@@ -142,14 +145,14 @@ public class Player {
             change(Direction.DOWN);
         } else if (temp.equals(keys.get(3))) {
             change(Direction.LEFT);
+        } else if (temp.equals(keys.get(4))) {
+            leaveBomb();
         } else {
             System.out.println("Wrong for player " + id);
         }
         pane.add(node, columnIndex, rowIndex);
 
-
-
-        Runnable setDown = () -> {
+        Runnable setDownState = () -> {
             state = "down_standing";
             address = rootAddress + name + state + ".png";
             pane.getChildren().remove(node);
@@ -157,16 +160,28 @@ public class Player {
             pane.add(node, columnIndex, rowIndex);
         };
 
-
         new Thread(() -> {
             try {
                 Thread.sleep(200);
-                Platform.runLater(setDown);
+                Platform.runLater(setDownState);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
 
 
+    }
+
+    private void leaveBomb() {
+        Node bomb = new ImageView(new Image("assets/map/bomb.png"));
+        pane.add(bomb, columnIndex, rowIndex);
+        new Thread(() -> {
+            try {
+                Thread.sleep(3000);
+                Platform.runLater(() -> pane.getChildren().remove(bomb));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }
