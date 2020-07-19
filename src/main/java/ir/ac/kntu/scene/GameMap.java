@@ -137,6 +137,7 @@ public class GameMap implements Presentable {
         for(Player p : players) {
             p.addToItems(blocks);
             p.addToItems(walls);
+            p.addToOneWays(oneWays);
         }
     }
 

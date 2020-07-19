@@ -19,7 +19,8 @@ public class Player {
     private int rowIndex;
     private int columnIndex;
     private List<KeyCode> keys;
-    private List<Item> items;
+    private List<Item> imPassables;
+    private List<OneWay> oneWays;
     private String rootAddress = "assets/";
     private String address;
     private String name;
@@ -33,7 +34,8 @@ public class Player {
         this.pane = pane;
         this.node = node;
         keys = new ArrayList<>();
-        items = new ArrayList<>();
+        imPassables = new ArrayList<>();
+        oneWays = new ArrayList<>();
         makeName();
         state = "down_standing";
         address = rootAddress + name + state + ".png";
@@ -119,23 +121,23 @@ public class Player {
     private boolean canMove(Direction dir) {
         switch (dir) {
             case UP:
-                if (rowIndex == 0 || thereIsImpassableItem(columnIndex, rowIndex - 1)) {
+                if (rowIndex == 0 || thereIsImpassableItem(columnIndex, rowIndex - 1, dir)) {
                     return false;
                 }
                 break;
             case DOWN:
-                if (rowIndex == pane.getRowCount() - 1 || thereIsImpassableItem(columnIndex, rowIndex + 1)) {
+                if (rowIndex == pane.getRowCount() - 1 || thereIsImpassableItem(columnIndex, rowIndex + 1, dir)) {
                     return false;
                 }
                 break;
             case LEFT:
-                if (columnIndex == 0 || thereIsImpassableItem(columnIndex - 1, rowIndex)) {
+                if (columnIndex == 0 || thereIsImpassableItem(columnIndex - 1, rowIndex, dir)) {
                     return false;
                 }
                 break;
             case RIGHT:
                 if (columnIndex == pane.getColumnCount() - 1 ||
-                        thereIsImpassableItem(columnIndex + 1, rowIndex)) {
+                        thereIsImpassableItem(columnIndex + 1, rowIndex, dir)) {
                     return false;
                 }
                 break;
@@ -145,9 +147,14 @@ public class Player {
         return true;
     }
 
-    private boolean thereIsImpassableItem(int columnIndex, int rowIndex) {
-        for (Item i : items) {
+    private boolean thereIsImpassableItem(int columnIndex, int rowIndex, Direction dir) {
+        for (Item i : imPassables) {
             if (i.isAlive() && !i.isPassable() && i.getColumnIndex() == columnIndex && i.getRowIndex() == rowIndex) {
+                return true;
+            }
+        }
+        for(OneWay o : oneWays) {
+            if(o.getColumnIndex() == columnIndex && o.getRowIndex() == rowIndex && o.getDirection() != dir) {
                 return true;
             }
         }
@@ -156,8 +163,16 @@ public class Player {
 
     public void addToItems(ArrayList<Item> src) {
         for (Item i : src) {
-            if (!items.contains(i)) {
-                items.add(i);
+            if (!imPassables.contains(i)) {
+                imPassables.add(i);
+            }
+        }
+    }
+
+    public void addToOneWays(ArrayList<OneWay> src) {
+        for(OneWay o : src) {
+            if(!oneWays.contains(o)) {
+                oneWays.add(o);
             }
         }
     }

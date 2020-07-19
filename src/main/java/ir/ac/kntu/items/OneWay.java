@@ -11,4 +11,8 @@ public class OneWay extends Item{
         super(pane, node, isPassable, false);
         this.direction = direction;
     }
+
+    public Direction getDirection() {
+        return direction;
+    }
 }
