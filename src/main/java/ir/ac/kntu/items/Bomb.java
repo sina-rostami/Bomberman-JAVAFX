@@ -1,6 +1,5 @@
 package ir.ac.kntu.items;
 
-import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,11 +12,14 @@ public class Bomb {
     private List<Player> players;
     private List<Block> blocks;
     private List<Wall> walls;
+    private ArrayList<Block> deadBlocks;
+    private ArrayList<Player> deadPlayers;
     private GridPane pane;
     private int columnIndex;
     private int rowIndex;
     private Node bomb;
     private List<Node> explodings;
+    private int score;
 
     public Bomb(GridPane pane, List<Player> players, List<Block> blocks, List<Wall> walls,
                 int columnIndex, int rowIndex) {
@@ -27,38 +29,51 @@ public class Bomb {
         this.pane = pane;
         this.rowIndex = rowIndex;
         this.columnIndex = columnIndex;
+        score = 0;
         explodings = new ArrayList<>();
+        deadPlayers = new ArrayList<>();
+        deadBlocks = new ArrayList<>();
         bomb = new ImageView(new Image("assets/map/bomb.png"));
+
     }
 
     public void setBomb() {
-        Platform.runLater(() -> pane.add(bomb, columnIndex, rowIndex));
+        pane.add(bomb, columnIndex, rowIndex);
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    private void setScore(int sc) {
+        score = sc;
     }
 
     public void explode() {
-        ArrayList<Block> deadBlocks = new ArrayList<>();
-        expLeft(deadBlocks);
-        expRight(deadBlocks);
-        expUp(deadBlocks);
-        expDown(deadBlocks);
+        expLeft();
+        expRight();
+        expUp();
+        expDown();
+        setScore(deadPlayers.size());
         for (Block b : deadBlocks) {
             blocks.remove(b);
         }
     }
 
-    public void expUp(ArrayList<Block> deadBlocks) {
+    public void expUp() {
         for (int i = rowIndex; i > 0 && i > rowIndex - 4; i--) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
-            explodings.add(temp);
             int finalI = i;
             if (validBlock(columnIndex, finalI)) {
-                Platform.runLater(() -> pane.add(temp, columnIndex, finalI));
+                pane.add(temp, columnIndex, finalI);
+                explodings.add(temp);
             } else {
                 break;
             }
             for (Player p : players) {
-                if (p.getRowIndex() == i && p.getColumnIndex() == columnIndex) {
+                if (p.isAlive() && p.getRowIndex() == i && p.getColumnIndex() == columnIndex) {
                     p.setKilled();
+                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -75,19 +90,20 @@ public class Bomb {
         }
     }
 
-    public void expRight(ArrayList<Block> deadBlocks) {
-        for (int i = columnIndex; i < pane.getColumnCount() - 1 && i < columnIndex + 4; i++) {
+    public void expRight() {
+        for (int i = columnIndex + 1; i < pane.getColumnCount() - 1 && i < columnIndex + 4; i++) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
-            explodings.add(temp);
             int finalI = i;
             if (validBlock(finalI, rowIndex)) {
-                Platform.runLater(() -> pane.add(temp, finalI, rowIndex));
+                pane.add(temp, finalI, rowIndex);
+                explodings.add(temp);
             } else {
                 break;
             }
             for (Player p : players) {
-                if (p.getRowIndex() == rowIndex && p.getColumnIndex() == i) {
+                if (p.isAlive() && p.getRowIndex() == rowIndex && p.getColumnIndex() == i) {
                     p.setKilled();
+                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -104,19 +120,20 @@ public class Bomb {
         }
     }
 
-    public void expDown(ArrayList<Block> deadBlocks) {
-        for (int i = rowIndex; i < pane.getRowCount() && i < rowIndex + 4; i++) {
+    public void expDown() {
+        for (int i = rowIndex + 1; i < pane.getRowCount() && i < rowIndex + 4; i++) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
-            explodings.add(temp);
             int finalI = i;
             if (validBlock(columnIndex, finalI)) {
-                Platform.runLater(() -> pane.add(temp, columnIndex, finalI));
+                pane.add(temp, columnIndex, finalI);
+                explodings.add(temp);
             } else {
                 break;
             }
             for (Player p : players) {
-                if (p.getRowIndex() == i && p.getColumnIndex() == columnIndex) {
+                if (p.isAlive() && p.getRowIndex() == i && p.getColumnIndex() == columnIndex) {
                     p.setKilled();
+                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -133,19 +150,20 @@ public class Bomb {
         }
     }
 
-    public void expLeft(ArrayList<Block> deadBlocks) {
-        for (int i = columnIndex; i > 0 && i > columnIndex - 4; i--) {
+    public void expLeft() {
+        for (int i = columnIndex - 1; i > 0 && i > columnIndex - 4; i--) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
-            explodings.add(temp);
             int finalI = i;
             if (validBlock(finalI, rowIndex)) {
-                Platform.runLater(() -> pane.add(temp, finalI, rowIndex));
+                pane.add(temp, finalI, rowIndex);
+                explodings.add(temp);
             } else {
                 break;
             }
             for (Player p : players) {
-                if (p.getRowIndex() == rowIndex && p.getColumnIndex() == i) {
+                if (p.isAlive() && p.getRowIndex() == rowIndex && p.getColumnIndex() == i) {
                     p.setKilled();
+                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -172,9 +190,12 @@ public class Bomb {
     }
 
     public void clear() {
-        Platform.runLater(() -> pane.getChildren().remove(bomb));
+        pane.getChildren().remove(bomb);
         for (Node n : explodings) {
-            Platform.runLater(() -> pane.getChildren().remove(n));
+            pane.getChildren().remove(n);
+        }
+        for(Player p : deadPlayers) {
+            players.remove(p);
         }
     }
 }

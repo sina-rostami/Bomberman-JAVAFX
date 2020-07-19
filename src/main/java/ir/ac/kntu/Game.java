@@ -63,7 +63,7 @@ public class Game extends Application {
         scene.setOnKeyPressed(keyEvent -> {
             KeyCode temp = keyEvent.getCode();
             for (Player p : players) {
-                if (p.getKeys().contains(temp)) {
+                if (p.isAlive() && p.getKeys().contains(temp)) {
                     p.handleMove(temp);
                     return;
                 }

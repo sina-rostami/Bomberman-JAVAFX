@@ -7,10 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 public class Player {
     private int id;
@@ -29,8 +27,6 @@ public class Player {
     private String state;
     private int score;
     private boolean isAlive;
-    private ImageView iv;
-    private Image img;
     private boolean hasActiveBomb;
 
     public Player(int id, GridPane pane, Node node) {
@@ -45,7 +41,6 @@ public class Player {
         address = rootAddress + name + state + ".png";
         initKeys();
     }
-
     private void initKeys() {
         if (id == 1) {
             keys.add(KeyCode.UP);
@@ -73,20 +68,23 @@ public class Player {
             keys.add(KeyCode.U);
         }
     }
-
-    public Node getPlayer() {
-        return iv;
+    public String getName() {
+        return name;
     }
-
     public int getRowIndex() {
-        return rowIndex;
+        return pane.getRowIndex(node);
     }
 
     public int getColumnIndex() {
-        return columnIndex;
+        return pane.getColumnIndex(node);
     }
 
     public void setKilled() {
+        state = "up_standing";
+        address = rootAddress + name + state + ".png";
+        Platform.runLater(() -> {
+            pane.getChildren().remove(node);
+        });
         isAlive = false;
     }
 
@@ -133,6 +131,7 @@ public class Player {
         address = rootAddress + name + state + ".png";
         node = new ImageView(new Image(address));
     }
+
 
     private boolean canMove(Direction dir) {
         switch (dir) {
@@ -216,7 +215,6 @@ public class Player {
                 break;
         }
     }
-
     public void handleMove(KeyCode temp) {
         rowIndex = pane.getRowIndex(node);
         columnIndex = pane.getColumnIndex(node);
@@ -254,29 +252,48 @@ public class Player {
         }).start();
 
     }
-
     private void leaveBomb() {
         if (hasActiveBomb) {
             return;
         }
-
         Bomb bomb = new Bomb(pane, players, blocks, walls, columnIndex, rowIndex);
         new Thread(() -> {
             try {
                 hasActiveBomb = true;
-                bomb.setBomb();
-                Thread.sleep(2000);
-                bomb.explode();
-                Thread.sleep(1000);
-                bomb.clear();
+                Platform.runLater(() -> {
+                    bomb.setBomb();
+                });
+                Thread.sleep(1500);
+                Platform.runLater(() -> {
+                    bomb.explode();
+                });
+                Thread.sleep(400);
+                Platform.runLater(() -> {
+                    bomb.clear();
+                });
+                Thread.sleep(100);
+                score += bomb.getScore();
+                if(!this.isAlive) {
+                    score--;
+                    if(score < 0) {
+                        score = 0;
+                    }
+                }
+                System.out.println(getName() +  " score = " + score);
+                System.out.println("players.size() = " + players.size());
                 hasActiveBomb = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            if(players.size() <= 1) {
+                System.out.println("Game is Done");
+            }
         }).start();
     }
-
     public ArrayList<KeyCode> getKeys() {
         return (ArrayList<KeyCode>) keys;
+    }
+    public boolean isAlive() {
+        return isAlive;
     }
 }
