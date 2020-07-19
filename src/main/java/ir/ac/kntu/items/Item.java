@@ -8,18 +8,18 @@ public class Item {
     private Node node;
     private boolean isAlive;
     private boolean isPassable;
-
+    private boolean destroyable;
 
     public Item() {
 
     }
 
-    public Item(GridPane pane, Node node, boolean isPassable) {
+    public Item(GridPane pane, Node node, boolean isPassable, boolean destroyable) {
         this.pane = pane;
         this.node = node;
         this.isAlive = true;
         this.isPassable = isPassable;
-
+        this.destroyable = destroyable;
     }
 
     public int getRowIndex() {

@@ -15,8 +15,8 @@ import java.util.List;
 public class Game extends Application {
     private final List<Player> players;
     private List<Bomb> bombs;
-    private List<Block> blocks;
-    private List<Wall> walls;
+    private List<Item> blocks;
+    private List<Item> walls;
     private List<PowerUp> powerUps;
     private List<OneWay> oneWays;
     private GameMap gameMap;
@@ -35,8 +35,8 @@ public class Game extends Application {
         blocks = gameMap.getBlocks();
         powerUps = gameMap.getPowerUps();
         oneWays = gameMap.getOneWays();
-
         initScene();
+
     }
 
     public static void main(String[] args) {

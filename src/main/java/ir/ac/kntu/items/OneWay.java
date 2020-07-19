@@ -8,7 +8,7 @@ public class OneWay extends Item{
     private Direction direction;
 
     public OneWay(GridPane pane, Node node, boolean isPassable, Direction direction) {
-        super(pane, node, isPassable);
+        super(pane, node, isPassable, false);
         this.direction = direction;
     }
 }

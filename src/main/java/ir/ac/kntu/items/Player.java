@@ -19,18 +19,21 @@ public class Player {
     private int rowIndex;
     private int columnIndex;
     private List<KeyCode> keys;
+    private List<Item> items;
     private String rootAddress = "assets/";
     private String address;
     private String name;
     private String state;
     private ImageView iv;
     private Image img;
+    private boolean hasActiveBomb;
 
     public Player(int id, GridPane pane, Node node) {
         this.id = id;
         this.pane = pane;
         this.node = node;
         keys = new ArrayList<>();
+        items = new ArrayList<>();
         makeName();
         state = "down_standing";
         address = rootAddress + name + state + ".png";
@@ -89,6 +92,9 @@ public class Player {
     }
 
     public void change(Direction dir) {
+        if (!canMove(dir)) {
+            return;
+        }
         switch (dir) {
             case UP:
                 --rowIndex;
@@ -110,6 +116,52 @@ public class Player {
         node = new ImageView(new Image(address));
     }
 
+    private boolean canMove(Direction dir) {
+        switch (dir) {
+            case UP:
+                if (rowIndex == 0 || thereIsImpassableItem(columnIndex, rowIndex - 1)) {
+                    return false;
+                }
+                break;
+            case DOWN:
+                if (rowIndex == pane.getRowCount() - 1 || thereIsImpassableItem(columnIndex, rowIndex + 1)) {
+                    return false;
+                }
+                break;
+            case LEFT:
+                if (columnIndex == 0 || thereIsImpassableItem(columnIndex - 1, rowIndex)) {
+                    return false;
+                }
+                break;
+            case RIGHT:
+                if (columnIndex == pane.getColumnCount() - 1 ||
+                        thereIsImpassableItem(columnIndex + 1, rowIndex)) {
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    private boolean thereIsImpassableItem(int columnIndex, int rowIndex) {
+        for (Item i : items) {
+            if (i.isAlive() && !i.isPassable() && i.getColumnIndex() == columnIndex && i.getRowIndex() == rowIndex) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addToItems(ArrayList<Item> src) {
+        for (Item i : src) {
+            if (!items.contains(i)) {
+                items.add(i);
+            }
+        }
+    }
+
     private void setState(Direction dir) {
         switch (dir) {
             case UP:
@@ -127,10 +179,6 @@ public class Player {
             default:
                 break;
         }
-    }
-
-    public ArrayList<KeyCode> getKeys() {
-        return (ArrayList<KeyCode>) keys;
     }
 
     public void handleMove(KeyCode temp) {
@@ -169,19 +217,27 @@ public class Player {
             }
         }).start();
 
-
     }
 
     private void leaveBomb() {
+        if (hasActiveBomb) {
+            return;
+        }
         Node bomb = new ImageView(new Image("assets/map/bomb.png"));
         pane.add(bomb, columnIndex, rowIndex);
+        hasActiveBomb = true;
         new Thread(() -> {
             try {
                 Thread.sleep(3000);
                 Platform.runLater(() -> pane.getChildren().remove(bomb));
+                hasActiveBomb = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }).start();
+    }
+
+    public ArrayList<KeyCode> getKeys() {
+        return (ArrayList<KeyCode>) keys;
     }
 }

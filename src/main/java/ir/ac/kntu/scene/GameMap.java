@@ -18,8 +18,8 @@ public class GameMap implements Presentable {
     private int[][] items;
     private GridPane pane;
     private ArrayList<Player> players;
-    private ArrayList<Block> blocks;
-    private ArrayList<Wall> walls;
+    private ArrayList<Item> blocks;
+    private ArrayList<Item> walls;
     private ArrayList<PowerUp> powerUps;
     private ArrayList<OneWay> oneWays;
     private Scene scene;
@@ -34,14 +34,14 @@ public class GameMap implements Presentable {
         pane.setVgap(1);
         pane.setHgap(1);
         initMap();
-        scene = new Scene(pane, Color.WHITE);
+        scene = new Scene(pane, Color.BLACK);
     }
 
     private void initMap() {
         loadMapFromFile();
         initBackGround();
-        initPlayers();
         initOtherItems();
+        initPlayers();
     }
 
 
@@ -130,10 +130,18 @@ public class GameMap implements Presentable {
                 }
             }
         }
+        initPlayersLists();
+    }
+
+    private void initPlayersLists() {
+        for(Player p : players) {
+            p.addToItems(blocks);
+            p.addToItems(walls);
+        }
     }
 
     public void loadMapFromFile() {
-        File file = new File("src/main/resources/maps/map1.txt");
+        File file = new File("src/main/resources/maps/map2.txt");
         if (file.exists()) {
             try (Scanner in = new Scanner(file)) {
                 items = new int[in.nextInt()][in.nextInt()];
@@ -152,11 +160,11 @@ public class GameMap implements Presentable {
         return players;
     }
 
-    public ArrayList<Block> getBlocks() {
+    public ArrayList<Item> getBlocks() {
         return blocks;
     }
 
-    public ArrayList<Wall> getWalls() {
+    public ArrayList<Item> getWalls() {
         return walls;
     }
 
