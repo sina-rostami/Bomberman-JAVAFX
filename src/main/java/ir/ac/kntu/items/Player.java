@@ -1,5 +1,5 @@
 package ir.ac.kntu.items;
-
+import ir.ac.kntu.Game;
 import ir.ac.kntu.util.Direction;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -14,6 +14,7 @@ public class Player {
     private int id;
     private GridPane pane;
     private Node node;
+    private Game game;
     private int rowIndex;
     private int columnIndex;
     private List<KeyCode> keys;
@@ -78,16 +79,9 @@ public class Player {
     public int getColumnIndex() {
         return pane.getColumnIndex(node);
     }
-
     public void setKilled() {
-        state = "up_standing";
-        address = rootAddress + name + state + ".png";
-        Platform.runLater(() -> {
-            pane.getChildren().remove(node);
-        });
         isAlive = false;
     }
-
     private void makeName() {
         switch (id) {
             case 1:
@@ -106,7 +100,6 @@ public class Player {
                 break;
         }
     }
-
     public void change(Direction dir) {
         if (!canMove(dir)) {
             return;
@@ -274,19 +267,14 @@ public class Player {
                 Thread.sleep(100);
                 score += bomb.getScore();
                 if(!this.isAlive) {
-                    score--;
-                    if(score < 0) {
-                        score = 0;
-                    }
+                    score = score > 0 ? score - 1 : 0;
                 }
-                System.out.println(getName() +  " score = " + score);
-                System.out.println("players.size() = " + players.size());
                 hasActiveBomb = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if(players.size() <= 1) {
-                System.out.println("Game is Done");
+                game.handleEndOfGame();
             }
         }).start();
     }
@@ -295,5 +283,17 @@ public class Player {
     }
     public boolean isAlive() {
         return isAlive;
+    }
+    public int getScore() {
+        return score;
+    }
+    public void setGame(Game g) {
+        game = g;
+    }
+    public Node getNode() {
+        return node;
+    }
+    public int getId() {
+        return id;
     }
 }

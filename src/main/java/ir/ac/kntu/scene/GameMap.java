@@ -2,6 +2,7 @@ package ir.ac.kntu.scene;
 
 import ir.ac.kntu.items.*;
 import ir.ac.kntu.util.Direction;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -33,8 +34,9 @@ public class GameMap implements Presentable {
         pane = new GridPane();
         pane.setVgap(1);
         pane.setHgap(1);
+        pane.setPadding(new Insets(50, 50, 50, 50));
         initMap();
-        scene = new Scene(pane, Color.BLACK);
+        scene = new Scene(pane, Color.WHITE);
     }
 
     private void initMap() {
@@ -43,7 +45,6 @@ public class GameMap implements Presentable {
         initOtherItems();
         initPlayers();
     }
-
 
     @Override
     public Scene getScene() {
