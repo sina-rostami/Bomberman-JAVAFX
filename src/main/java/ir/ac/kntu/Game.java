@@ -77,7 +77,11 @@ public class Game extends Application {
         int max = 0;
         Player winner = null;
         for (Player p : players) {
-            if(p.getScore() > max) {
+            if(p.isAlive()) {
+                winner = p;
+                break;
+            }
+            if(p.getScore() >= max) {
                 max = p.getScore();
                 winner = p;
             }

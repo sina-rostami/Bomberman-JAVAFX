@@ -124,8 +124,6 @@ public class Player {
         address = rootAddress + name + state + ".png";
         node = new ImageView(new Image(address));
     }
-
-
     private boolean canMove(Direction dir) {
         switch (dir) {
             case UP:
@@ -267,7 +265,7 @@ public class Player {
                 Thread.sleep(100);
                 score += bomb.getScore();
                 if(!this.isAlive) {
-                    score = score > 0 ? score - 1 : 0;
+                    score--;
                 }
                 hasActiveBomb = false;
             } catch (InterruptedException e) {
