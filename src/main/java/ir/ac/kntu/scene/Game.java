@@ -1,8 +1,7 @@
-package ir.ac.kntu;
+package ir.ac.kntu.scene;
 
 import ir.ac.kntu.items.*;
 import ir.ac.kntu.scene.GameMap;
-import ir.ac.kntu.scene.Menu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
@@ -11,22 +10,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends Application {
     private final List<Player> players;
-    private List<Bomb> bombs;
     private List<Block> blocks;
     private List<Wall> walls;
     private List<PowerUp> powerUps;
     private List<OneWay> oneWays;
     private GameMap gameMap;
-    private Menu menu;
     private Scene scene;
     private GridPane pane;
-    private Thread timer;
+    private boolean isDone;
 
     public Game() {
         gameMap = new GameMap();
@@ -39,16 +35,13 @@ public class Game extends Application {
         oneWays = gameMap.getOneWays();
 
     }
-    public static void main(String[] args) {
-        launch(args);
-    }
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         initScene();
         intiRandomObjects();
         stage.setScene(scene);
-        stage.initStyle(StageStyle.DECORATED);
-        stage.setTitle("Fariborz Bobmerman");
+        //stage.initStyle(StageStyle.DECORATED);
+        stage.setTitle("Fariboorz Bobmerman");
         stage.show();
     }
     private void intiRandomObjects() {
@@ -74,6 +67,7 @@ public class Game extends Application {
     }
 
     public void handleEndOfGame() {
+        isDone = true;
         int max = 0;
         Player winner = null;
         for (Player p : players) {
@@ -103,6 +97,13 @@ public class Game extends Application {
                 GridPane.setHalignment(t, HPos.CENTER);
             }
         });
-        System.out.println(winner.getName() + " score " + max);
+    }
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public GridPane getPane() {
+        return pane;
     }
 }

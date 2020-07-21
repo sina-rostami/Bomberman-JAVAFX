@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GameMap implements Presentable {
+public class GameMap {
     private int[][] items;
     private GridPane pane;
     private ArrayList<Player> players;
@@ -31,12 +31,13 @@ public class GameMap implements Presentable {
         walls = new ArrayList<>();
         powerUps = new ArrayList<>();
         oneWays = new ArrayList<>();
+
         pane = new GridPane();
         pane.setVgap(1);
         pane.setHgap(1);
-        pane.setPadding(new Insets(50, 50, 50, 50));
+        pane.setPadding(new Insets(0, 70, 50, 0));
         initMap();
-        scene = new Scene(pane, Color.WHITE);
+        scene = new Scene(pane, Color.DARKGREEN);
     }
 
     private void initMap() {
@@ -46,7 +47,6 @@ public class GameMap implements Presentable {
         initPlayers();
     }
 
-    @Override
     public Scene getScene() {
         return scene;
     }

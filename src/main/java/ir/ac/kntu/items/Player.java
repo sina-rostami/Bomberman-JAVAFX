@@ -1,5 +1,5 @@
 package ir.ac.kntu.items;
-import ir.ac.kntu.Game;
+import ir.ac.kntu.scene.Game;
 import ir.ac.kntu.util.Direction;
 import javafx.application.Platform;
 import javafx.scene.Node;
@@ -258,11 +258,10 @@ public class Player {
                 Platform.runLater(() -> {
                     bomb.explode();
                 });
-                Thread.sleep(400);
+                Thread.sleep(300);
                 Platform.runLater(() -> {
                     bomb.clear();
                 });
-                Thread.sleep(100);
                 score += bomb.getScore();
                 if(!this.isAlive) {
                     score--;
