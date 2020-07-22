@@ -262,6 +262,7 @@ public class Player {
                 Platform.runLater(() -> {
                     bomb.clear();
                 });
+                Thread.sleep(100);
                 score += bomb.getScore();
                 if(!this.isAlive) {
                     score--;

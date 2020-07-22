@@ -1,7 +1,6 @@
 package ir.ac.kntu.scene;
 
 import ir.ac.kntu.items.*;
-import ir.ac.kntu.scene.GameMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
@@ -40,7 +39,6 @@ public class Game extends Application {
         initScene();
         intiRandomObjects();
         stage.setScene(scene);
-        //stage.initStyle(StageStyle.DECORATED);
         stage.setTitle("Fariboorz Bobmerman");
         stage.show();
     }

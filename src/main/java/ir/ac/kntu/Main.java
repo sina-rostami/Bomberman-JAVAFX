@@ -4,7 +4,6 @@ import ir.ac.kntu.scene.Game;
 import ir.ac.kntu.scene.Menu;
 import javafx.application.Application;
 import javafx.application.Platform;
-
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -18,7 +17,6 @@ public class Main extends Application {
 
     public void start(Stage stage) throws Exception {
         menuPlay(stage);
-        //gamePlay(stage);
 
     }
 
@@ -26,6 +24,10 @@ public class Main extends Application {
         Platform.runLater(() -> {
             menu = new Menu();
             menu.start(stage);
+            menu.getPlayButton().setOnMouseClicked(mouseEvent -> {
+                gamePlay(stage);
+                menu.stopMusic();
+            });
         });
     }
 
@@ -36,7 +38,7 @@ public class Main extends Application {
         });
         new Thread(() -> {
             try {
-                Thread.sleep(1000 * 10);
+                Thread.sleep(1000 * 50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
