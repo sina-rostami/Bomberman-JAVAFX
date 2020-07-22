@@ -15,25 +15,26 @@ public class Main extends Application {
         launch(args);
     }
 
-    public void start(Stage stage) throws Exception {
-        menuPlay(stage);
-
+    public void start(Stage stage) {
+        play(stage);
     }
 
-    private void menuPlay(Stage stage) {
+    private void play(Stage stage) {
         Platform.runLater(() -> {
             menu = new Menu();
             menu.start(stage);
             menu.getPlayButton().setOnMouseClicked(mouseEvent -> {
-                gamePlay(stage);
-                menu.stopMusic();
+                if(menu.getChoiceBox().getValue() != null) {
+                    gamePlay(stage, menu.getChoiceBox().getValue());
+                    menu.changeMusic();
+                }
             });
         });
     }
 
-    public void gamePlay(Stage stage) {
+    public void gamePlay(Stage stage, int cnt) {
         Platform.runLater(() -> {
-            game = new Game();
+            game = new Game(cnt);
             game.start(stage);
         });
         new Thread(() -> {

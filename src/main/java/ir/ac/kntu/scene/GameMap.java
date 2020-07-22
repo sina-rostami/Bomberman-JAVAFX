@@ -24,20 +24,21 @@ public class GameMap {
     private ArrayList<PowerUp> powerUps;
     private ArrayList<OneWay> oneWays;
     private Scene scene;
+    private int playerCounter;
 
-    public GameMap() {
+    public GameMap(int pCnt) {
+        playerCounter = pCnt;
         players = new ArrayList<>();
         blocks = new ArrayList<>();
         walls = new ArrayList<>();
         powerUps = new ArrayList<>();
         oneWays = new ArrayList<>();
-
         pane = new GridPane();
+        scene = new Scene(pane, Color.GREEN);
         pane.setVgap(1);
         pane.setHgap(1);
         pane.setPadding(new Insets(0, 70, 50, 0));
         initMap();
-        scene = new Scene(pane, Color.DARKGREEN);
     }
 
     private void initMap() {
@@ -106,6 +107,9 @@ public class GameMap {
         for (int i = 0; i < items.length; i++) {
             for (int j = 0; j < items[0].length; j++) {
                 Node temp = null;
+                if(items[i][j] > playerCounter) {
+                    continue;
+                }
                 switch (items[i][j]) {
                     case 1:
                         temp = new ImageView(new Image("assets/player/player_down_standing.png"));

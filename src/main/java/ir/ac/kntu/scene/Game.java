@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Game extends Application {
-    private final List<Player> players;
+    private List<Player> players;
     private List<Block> blocks;
     private List<Wall> walls;
     private List<PowerUp> powerUps;
@@ -22,9 +22,10 @@ public class Game extends Application {
     private Scene scene;
     private GridPane pane;
     private boolean isDone;
-
-    public Game() {
-        gameMap = new GameMap();
+    private int playersCount;
+    public Game(int num) {
+        playersCount = num;
+        gameMap = new GameMap(playersCount);
         scene = gameMap.getScene();
         pane = gameMap.getPane();
         players = new ArrayList<>(gameMap.getPlayers());
@@ -32,7 +33,6 @@ public class Game extends Application {
         blocks = gameMap.getBlocks();
         powerUps = gameMap.getPowerUps();
         oneWays = gameMap.getOneWays();
-
     }
     @Override
     public void start(Stage stage) {
