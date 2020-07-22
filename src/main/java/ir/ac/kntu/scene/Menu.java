@@ -18,6 +18,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.io.File;
 
 
@@ -29,6 +30,9 @@ public class Menu extends Application {
     private MediaPlayer mediaPlayer;
     @Override
     public void start(Stage stage){
+        if(mediaPlayer != null) {
+            mediaPlayer.stop();
+        }
         pane = new BorderPane();
         scene = new Scene(pane, Color.GREEN);
         stage.setScene(scene);

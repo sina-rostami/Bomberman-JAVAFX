@@ -9,6 +9,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,6 @@ public class Game extends Application {
             }
         });
     }
-
     public void handleEndOfGame() {
         isDone = true;
         int max = 0;
@@ -96,11 +96,9 @@ public class Game extends Application {
             }
         });
     }
-
     public boolean isDone() {
         return isDone;
     }
-
     public GridPane getPane() {
         return pane;
     }

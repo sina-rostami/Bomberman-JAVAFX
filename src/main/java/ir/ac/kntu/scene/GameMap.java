@@ -2,7 +2,6 @@ package ir.ac.kntu.scene;
 
 import ir.ac.kntu.items.*;
 import ir.ac.kntu.util.Direction;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -34,11 +33,10 @@ public class GameMap {
         powerUps = new ArrayList<>();
         oneWays = new ArrayList<>();
         pane = new GridPane();
-        scene = new Scene(pane, Color.GREEN);
+        initMap();
         pane.setVgap(1);
         pane.setHgap(1);
-        pane.setPadding(new Insets(0, 70, 50, 0));
-        initMap();
+        scene = new Scene(pane, pane.getColumnCount() * 50 + 85, pane.getRowCount() * 50 + 70, Color.GREEN);
     }
 
     private void initMap() {
