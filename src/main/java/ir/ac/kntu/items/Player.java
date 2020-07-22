@@ -1,4 +1,5 @@
 package ir.ac.kntu.items;
+
 import ir.ac.kntu.scene.Game;
 import ir.ac.kntu.util.Direction;
 import javafx.application.Platform;
@@ -7,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class Player {
     private int score;
     private boolean isAlive;
     private boolean hasActiveBomb;
+    private boolean hasPower;
 
     public Player(int id, GridPane pane, Node node) {
         this.id = id;
@@ -69,13 +72,9 @@ public class Player {
             keys.add(KeyCode.U);
         }
     }
-    public String getName() {
-        return name;
-    }
     public int getRowIndex() {
         return pane.getRowIndex(node);
     }
-
     public int getColumnIndex() {
         return pane.getColumnIndex(node);
     }
@@ -120,6 +119,17 @@ public class Player {
             default:
                 break;
         }
+        if(game.getMap().hasPower(rowIndex, columnIndex)) {
+            new Thread(() -> {
+                hasPower = true;
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                hasPower = false;
+            }).start();
+        }
         setState(dir);
         address = rootAddress + name + state + ".png";
         node = new ImageView(new Image(address));
@@ -152,7 +162,6 @@ public class Player {
         }
         return true;
     }
-
     private boolean thereIsImpassableItem(int columnIndex, int rowIndex, Direction dir) {
         for (Wall i : walls) {
             if (i.isAlive() && !i.isPassable() && i.getColumnIndex() == columnIndex && i.getRowIndex() == rowIndex) {
@@ -171,21 +180,12 @@ public class Player {
         }
         return false;
     }
-
-    public void setWalls(ArrayList<Wall> src) {
-        walls = src;
-    }
-
-    public void setBlocks(ArrayList<Block> src) {
-        blocks = src;
-    }
-
-    public void setOneWays(ArrayList<OneWay> src) {
-        oneWays = src;
-    }
-
-    public void setPlayers(ArrayList<Player> src) {
-        players = src;
+    public void setLists(ArrayList<Wall> walls, ArrayList<Block> blocks, ArrayList<OneWay> oneWays,
+                         ArrayList<Player> players) {
+        this.walls = walls;
+        this.blocks = blocks;
+        this.oneWays = oneWays;
+        this.players = players;
     }
 
     private void setState(Direction dir) {
@@ -247,7 +247,7 @@ public class Player {
         if (hasActiveBomb) {
             return;
         }
-        Bomb bomb = new Bomb(pane, players, blocks, walls, columnIndex, rowIndex);
+        Bomb bomb = new Bomb(pane, players, blocks, walls, columnIndex, rowIndex, hasPower ? 5 : 3);
         new Thread(() -> {
             try {
                 hasActiveBomb = true;
@@ -290,8 +290,5 @@ public class Player {
     }
     public Node getNode() {
         return node;
-    }
-    public int getId() {
-        return id;
     }
 }

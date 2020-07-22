@@ -20,15 +20,17 @@ public class Bomb {
     private Node bomb;
     private List<Node> explodings;
     private int score;
+    private int radius;
 
     public Bomb(GridPane pane, List<Player> players, List<Block> blocks, List<Wall> walls,
-                int columnIndex, int rowIndex) {
+                int columnIndex, int rowIndex, int radius) {
         this.players = players;
         this.blocks = blocks;
         this.walls = walls;
         this.pane = pane;
         this.rowIndex = rowIndex;
         this.columnIndex = columnIndex;
+        this.radius = radius;
         score = 0;
         explodings = new ArrayList<>();
         deadPlayers = new ArrayList<>();
@@ -61,7 +63,7 @@ public class Bomb {
     }
 
     public void expUp() {
-        for (int i = rowIndex; i > 0 && i > rowIndex - 4; i--) {
+        for (int i = rowIndex; i > 0 && i > rowIndex - (radius + 1); i--) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
             int finalI = i;
             if (validBlock(columnIndex, finalI)) {
@@ -91,7 +93,7 @@ public class Bomb {
     }
 
     public void expRight() {
-        for (int i = columnIndex + 1; i < pane.getColumnCount() - 1 && i < columnIndex + 4; i++) {
+        for (int i = columnIndex + 1; i < pane.getColumnCount() - 1 && i < columnIndex + (radius + 1); i++) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
             int finalI = i;
             if (validBlock(finalI, rowIndex)) {
@@ -121,7 +123,7 @@ public class Bomb {
     }
 
     public void expDown() {
-        for (int i = rowIndex + 1; i < pane.getRowCount() && i < rowIndex + 4; i++) {
+        for (int i = rowIndex + 1; i < pane.getRowCount() && i < rowIndex + (radius + 1); i++) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
             int finalI = i;
             if (validBlock(columnIndex, finalI)) {
@@ -151,7 +153,7 @@ public class Bomb {
     }
 
     public void expLeft() {
-        for (int i = columnIndex - 1; i > 0 && i > columnIndex - 4; i--) {
+        for (int i = columnIndex - 1; i > 0 && i > columnIndex - (radius + 1); i--) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
             int finalI = i;
             if (validBlock(finalI, rowIndex)) {

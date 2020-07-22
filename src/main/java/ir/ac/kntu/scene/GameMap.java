@@ -138,10 +138,7 @@ public class GameMap {
 
     private void initPlayersLists() {
         for(Player p : players) {
-            p.setBlocks(blocks);
-            p.setWalls(walls);
-            p.setOneWays(oneWays);
-            p.setPlayers(players);
+            p.setLists(walls, blocks, oneWays, players);
         }
     }
 
@@ -183,5 +180,16 @@ public class GameMap {
 
     public GridPane getPane() {
         return pane;
+    }
+
+    public boolean hasPower(int rowIndex, int columnIndex) {
+        for(PowerUp p : powerUps) {
+            if(p.getRowIndex() == rowIndex && p.getColumnIndex() == columnIndex) {
+                p.destroy();
+                powerUps.remove(p);
+                return true;
+            }
+        }
+        return false;
     }
 }

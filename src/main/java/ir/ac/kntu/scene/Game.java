@@ -102,4 +102,7 @@ public class Game extends Application {
     public GridPane getPane() {
         return pane;
     }
+    public GameMap getMap() {
+        return gameMap;
+    }
 }
