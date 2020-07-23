@@ -5,7 +5,6 @@ import ir.ac.kntu.scene.Menu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 
@@ -55,19 +54,6 @@ public class Main extends Application {
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            }
-        }).start();
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000 * 60 * 3);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            if (!game.isDone()) {
-                Platform.runLater(() -> {
-                    game.getPane().addRow(game.getPane().getRowCount() - 1, new Text("TimeUp"));
-                });
-                game.handleEndOfGame();
             }
         }).start();
     }

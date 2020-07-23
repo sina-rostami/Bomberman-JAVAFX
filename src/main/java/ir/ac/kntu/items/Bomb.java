@@ -36,7 +36,6 @@ public class Bomb {
         deadPlayers = new ArrayList<>();
         deadBlocks = new ArrayList<>();
         bomb = new ImageView(new Image("assets/map/bomb.png"));
-
     }
 
     public void setBomb() {

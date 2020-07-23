@@ -24,6 +24,7 @@ public class Game extends Application {
     private GridPane pane;
     private boolean isDone;
     private int playersCount;
+    private Thread timer;
     public Game(int num) {
         playersCount = num;
         gameMap = new GameMap(playersCount);
@@ -37,12 +38,31 @@ public class Game extends Application {
     }
     @Override
     public void start(Stage stage) {
+        startTimer();
         initScene();
         intiRandomObjects();
         stage.setScene(scene);
         stage.setTitle("Fariboorz Bobmerman");
         stage.show();
     }
+
+    private void startTimer() {
+        timer = new Thread(() -> {
+            try {
+                Thread.sleep(1000 *  7);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (!this.isDone()) {
+                Platform.runLater(() -> {
+                    getPane().addRow(getPane().getRowCount() - 1, new Text("TimeUp"));
+                });
+                handleEndOfGame();
+            }
+        });
+        timer.start();
+    }
+
     private void intiRandomObjects() {
 
     }
