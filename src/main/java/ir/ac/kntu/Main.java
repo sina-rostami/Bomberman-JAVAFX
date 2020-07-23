@@ -1,5 +1,4 @@
 package ir.ac.kntu;
-
 import ir.ac.kntu.scene.Game;
 import ir.ac.kntu.scene.GameMap;
 import ir.ac.kntu.scene.Menu;
@@ -41,9 +40,9 @@ public class Main extends Application {
     public void gamePlay(Stage stage, int cnt) {
         Runnable checkEnd = () -> {
             try {
-                Thread.sleep(800);
+                Thread.sleep(900);
                 while (true) {
-                    Thread.sleep(100);
+                    Thread.sleep(170);
                     if (game.isDone()) {
                         gameDone();
                         break;
