@@ -42,7 +42,7 @@ public class Main extends Application {
             try {
                 Thread.sleep(900);
                 while (true) {
-                    Thread.sleep(150);
+                    Thread.sleep(160);
                     if (game.isDone()) {
                         gameDone();
                         break;
