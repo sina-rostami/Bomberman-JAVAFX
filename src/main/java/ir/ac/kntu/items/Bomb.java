@@ -13,7 +13,6 @@ public class Bomb {
     private List<Block> blocks;
     private List<Wall> walls;
     private ArrayList<Block> deadBlocks;
-    private ArrayList<Player> deadPlayers;
     private GridPane pane;
     private int columnIndex;
     private int rowIndex;
@@ -33,7 +32,6 @@ public class Bomb {
         this.radius = radius;
         score = 0;
         explodings = new ArrayList<>();
-        deadPlayers = new ArrayList<>();
         deadBlocks = new ArrayList<>();
         bomb = new ImageView(new Image("assets/map/bomb.png"));
     }
@@ -42,20 +40,11 @@ public class Bomb {
         pane.add(bomb, columnIndex, rowIndex);
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    private void setScore(int sc) {
-        score = sc;
-    }
-
     public void explode() {
         expLeft();
         expRight();
         expUp();
         expDown();
-        setScore(deadPlayers.size());
         for (Block b : deadBlocks) {
             blocks.remove(b);
         }
@@ -74,7 +63,8 @@ public class Bomb {
             for (Player p : players) {
                 if (p.isAlive() && p.getRowIndex() == i && p.getColumnIndex() == columnIndex) {
                     p.setKilled();
-                    deadPlayers.add(p);
+                    pane.getChildren().remove(p.getNode());
+                    handleKill();
                 }
             }
             boolean stop = false;
@@ -91,6 +81,12 @@ public class Bomb {
         }
     }
 
+    private void handleKill() {
+        for(Player p : players) {
+            p.setScore(p.isAlive() ? p.getScore() + 1 : p.getScore());
+        }
+    }
+
     public void expRight() {
         for (int i = columnIndex + 1; i < pane.getColumnCount() - 1 && i < columnIndex + (radius + 1); i++) {
             Node temp = new ImageView(new Image("assets/map/explosion/exp.png"));
@@ -104,7 +100,6 @@ public class Bomb {
             for (Player p : players) {
                 if (p.isAlive() && p.getRowIndex() == rowIndex && p.getColumnIndex() == i) {
                     p.setKilled();
-                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -134,7 +129,6 @@ public class Bomb {
             for (Player p : players) {
                 if (p.isAlive() && p.getRowIndex() == i && p.getColumnIndex() == columnIndex) {
                     p.setKilled();
-                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -164,7 +158,6 @@ public class Bomb {
             for (Player p : players) {
                 if (p.isAlive() && p.getRowIndex() == rowIndex && p.getColumnIndex() == i) {
                     p.setKilled();
-                    deadPlayers.add(p);
                 }
             }
             boolean stop = false;
@@ -194,9 +187,6 @@ public class Bomb {
         pane.getChildren().remove(bomb);
         for (Node n : explodings) {
             pane.getChildren().remove(n);
-        }
-        for(Player p : deadPlayers) {
-            players.remove(p);
         }
     }
 }

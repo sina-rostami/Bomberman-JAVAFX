@@ -87,31 +87,15 @@ public class Game extends Application implements Serializable {
     }
     public void handleEndOfGame() {
         isDone = true;
-
-        int max = 0;
-        Player winner = null;
-        for (Player p : players) {
-            if(p.isAlive()) {
-                winner = p;
-                break;
-            }
-            if(p.getScore() >= max) {
-                max = p.getScore();
-                winner = p;
-            }
-        }
-        Player finalWinner = winner;
+        players.sort((o1, o2) -> o2.getScore() - o1.getScore());
         Platform.runLater(() -> {
             int i = -2;
             for(Player p : players) {
-                if(p.isAlive()) {
-                    p.setKilled();
-                }
                 if(pane.getChildren().contains(p.getNode())) {
                     pane.getChildren().remove(p.getNode());
                 }
                 pane.addColumn(i += 2, p.getNode());
-                Text t = new Text(p.getScore() + (p == finalWinner ? " Win" : ""));
+                Text t = new Text("" + p.getScore());
                 pane.addColumn( i + 1, t);
                 GridPane.setHalignment(p.getNode(), HPos.CENTER);
                 GridPane.setHalignment(t, HPos.CENTER);

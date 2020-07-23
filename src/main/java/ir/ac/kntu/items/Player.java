@@ -12,7 +12,6 @@ import javafx.scene.layout.GridPane;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 public class Player implements Serializable {
     private int id;
     private GridPane pane;
@@ -81,6 +80,9 @@ public class Player implements Serializable {
     }
     public void setKilled() {
         isAlive = false;
+    }
+    public void setScore(int score) {
+        this.score = score;
     }
     private void makeName() {
         switch (id) {
@@ -188,7 +190,6 @@ public class Player implements Serializable {
         this.oneWays = oneWays;
         this.players = players;
     }
-
     private void setState(Direction dir) {
         switch (dir) {
             case UP:
@@ -264,18 +265,23 @@ public class Player implements Serializable {
                     bomb.clear();
                 });
                 Thread.sleep(100);
-                score += bomb.getScore();
-                if(!this.isAlive) {
-                    score--;
-                }
                 hasActiveBomb = false;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if(players.size() <= 1) {
+            if(getMaxScore() == players.size() - 1) {
                 game.handleEndOfGame();
             }
         }).start();
+    }
+    private int getMaxScore() {
+        int max = 0;
+        for(Player p : players) {
+            if(p.getScore() > max) {
+                max = p.getScore();
+            }
+        }
+        return max;
     }
     public ArrayList<KeyCode> getKeys() {
         return (ArrayList<KeyCode>) keys;

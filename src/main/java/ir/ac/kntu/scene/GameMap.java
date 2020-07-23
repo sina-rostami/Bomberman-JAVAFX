@@ -2,6 +2,7 @@ package ir.ac.kntu.scene;
 
 import ir.ac.kntu.items.*;
 import ir.ac.kntu.util.Direction;
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameMap {
@@ -39,19 +41,17 @@ public class GameMap {
         pane.setVgap(1);
         pane.setHgap(1);
         scene = new Scene(pane, pane.getColumnCount() * 50 + 85, pane.getRowCount() * 50 + 70, Color.GREEN);
+        startRandomObjects();
     }
-
     private void initMap() {
         loadMapFromFile();
         initBackGround();
         initOtherItems();
         initPlayers();
     }
-
     public Scene getScene() {
         return scene;
     }
-
     public void initBackGround() {
         for (int i = 0; i < items.length; i++) {
             for (int j = 0; j < items[0].length; j++) {
@@ -59,7 +59,6 @@ public class GameMap {
             }
         }
     }
-
     private void initOtherItems() {
         for (int i = 0; i < items.length; i++) {
             for (int j = 0; j < items[0].length; j++) {
@@ -102,7 +101,6 @@ public class GameMap {
             }
         }
     }
-
     public void initPlayers() {
         for (int i = 0; i < items.length; i++) {
             for (int j = 0; j < items[0].length; j++) {
@@ -137,13 +135,11 @@ public class GameMap {
         }
         initPlayersLists();
     }
-
     private void initPlayersLists() {
         for(Player p : players) {
             p.setLists(walls, blocks, oneWays, players);
         }
     }
-
     public void loadMapFromFile() {
         File file = null;
         FileChooser fileChooser = new FileChooser();
@@ -163,31 +159,24 @@ public class GameMap {
             }
         }
     }
-
     public ArrayList<Player> getPlayers() {
         return players;
     }
-
     public ArrayList<Block> getBlocks() {
         return blocks;
     }
-
     public ArrayList<Wall> getWalls() {
         return walls;
     }
-
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
     }
-
     public ArrayList<OneWay> getOneWays() {
         return oneWays;
     }
-
     public GridPane getPane() {
         return pane;
     }
-
     public boolean hasPower(int rowIndex, int columnIndex) {
         for(PowerUp p : powerUps) {
             if(p.getRowIndex() == rowIndex && p.getColumnIndex() == columnIndex) {
@@ -198,4 +187,88 @@ public class GameMap {
         }
         return false;
     }
+    public void startRandomObjects() {
+        Random random = new Random();
+        new Thread(() -> {
+            while (true) {
+                Node temp = null;
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                int objtype = random.nextInt(5) + 1;
+                int row = random.nextInt(pane.getRowCount() - 2) + 1;
+                int col = random.nextInt(pane.getColumnCount() - 2) + 1;
+                while (!isValidCoordinates(row, col)) {
+                    row = random.nextInt(pane.getRowCount() - 2) + 1;
+                    col = random.nextInt(pane.getColumnCount() - 2) + 1;
+                }
+                switch (objtype) {
+                    case 1: // powerU
+                        temp = new ImageView(new Image("assets/map/powerup.png"));
+                        powerUps.add(new PowerUp(pane, temp, true));
+                        break;
+                    case 2: // oneWay
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_right.png"));
+                        oneWays.add(new OneWay(pane, temp, true, Direction.RIGHT));
+                        break;
+                    case 3:
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_left.png"));
+                        oneWays.add(new OneWay(pane, temp, true, Direction.LEFT));
+                        break;
+                    case 4:
+                        temp = new ImageView(new Image("assets/map/oneway/oneway_up.png"));
+                        oneWays.add(new OneWay(pane, temp, true, Direction.UP));
+                        break;
+                    case 5: // bomb
+                        new Bomb(pane, players, blocks, walls, col, row, 3);
+                        break;
+                    default:
+                        break;
+
+                }
+                if(temp != null) {
+                    Node finalTemp = temp;
+                    int finalRow = row;
+                    int finalCol = col;
+                    Platform.runLater(() -> pane.add(finalTemp, finalCol, finalRow));
+                }
+            }
+        }).start();
+    }
+    private boolean isValidCoordinates(int row, int column) {
+        for (Wall w : walls) {
+            if(w.getRowIndex() == row && w.getColumnIndex() == column) {
+                return false;
+            }
+        }
+        for (OneWay w : oneWays) {
+            if(w.getRowIndex() == row && w.getColumnIndex() == column) {
+                return false;
+            }
+        }
+        for (Block w : blocks) {
+            if(w.getRowIndex() == row && w.getColumnIndex() == column) {
+                return false;
+            }
+        }
+        for (Player w : players) {
+            if(w.getRowIndex() == row && w.getColumnIndex() == column) {
+                return false;
+            }
+        }
+        for (OneWay w : oneWays) {
+            if(w.getRowIndex() == row && w.getColumnIndex() == column) {
+                return false;
+            }
+        }
+        for (PowerUp w : powerUps) {
+            if(w.getRowIndex() == row && w.getColumnIndex() == column) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
