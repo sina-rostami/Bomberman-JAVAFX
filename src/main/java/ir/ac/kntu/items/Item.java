@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
     private GridPane pane;
     private Node node;
     private boolean isAlive;

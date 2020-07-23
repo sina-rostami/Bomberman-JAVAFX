@@ -1,6 +1,7 @@
 package ir.ac.kntu;
 
 import ir.ac.kntu.scene.Game;
+import ir.ac.kntu.scene.GameMap;
 import ir.ac.kntu.scene.Menu;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,11 +39,7 @@ public class Main extends Application {
     }
 
     public void gamePlay(Stage stage, int cnt) {
-        Platform.runLater(() -> {
-            game = new Game(cnt);
-            game.start(stage);
-        });
-        new Thread(() -> {
+        Runnable checkEnd = () -> {
             try {
                 Thread.sleep(800);
                 while (true) {
@@ -55,7 +52,13 @@ public class Main extends Application {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }).start();
+        };
+        Platform.runLater(() -> {
+            game = new Game(cnt, new GameMap(cnt));
+            game.start(stage);
+            new Thread(checkEnd).start();
+        });
+
     }
 
     private void gameDone() {

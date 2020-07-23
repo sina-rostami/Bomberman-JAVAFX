@@ -9,10 +9,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Serializable {
     private int id;
     private GridPane pane;
     private Node node;

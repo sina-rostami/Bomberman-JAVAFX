@@ -8,6 +8,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -143,7 +145,11 @@ public class GameMap {
     }
 
     public void loadMapFromFile() {
-        File file = new File("src/main/resources/maps/map2.txt");
+        File file = null;
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Map (cancel for default)");
+        File f1 = fileChooser.showOpenDialog(new Stage());
+        file = f1 != null ? f1 : new File("src/main/resources/maps/map2.txt");
         if (file.exists()) {
             try (Scanner in = new Scanner(file)) {
                 items = new int[in.nextInt()][in.nextInt()];

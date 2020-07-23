@@ -10,10 +10,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game extends Application {
+public class Game extends Application implements Serializable {
     private List<Player> players;
     private List<Block> blocks;
     private List<Wall> walls;
@@ -25,9 +26,9 @@ public class Game extends Application {
     private boolean isDone;
     private int playersCount;
     private Thread timer;
-    public Game(int num) {
+    public Game(int num, GameMap gameMap) {
         playersCount = num;
-        gameMap = new GameMap(playersCount);
+        this.gameMap = gameMap;
         scene = gameMap.getScene();
         pane = gameMap.getPane();
         players = new ArrayList<>(gameMap.getPlayers());
@@ -49,7 +50,7 @@ public class Game extends Application {
     private void startTimer() {
         timer = new Thread(() -> {
             try {
-                Thread.sleep(1000 *  7);
+                Thread.sleep(1000 * 60 * 3);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -86,6 +87,7 @@ public class Game extends Application {
     }
     public void handleEndOfGame() {
         isDone = true;
+
         int max = 0;
         Player winner = null;
         for (Player p : players) {
