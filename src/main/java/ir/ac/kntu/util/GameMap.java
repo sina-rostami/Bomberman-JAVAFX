@@ -1,4 +1,5 @@
-package ir.ac.kntu.scene;
+package ir.ac.kntu.util;
+
 
 import ir.ac.kntu.items.*;
 import ir.ac.kntu.util.Direction;

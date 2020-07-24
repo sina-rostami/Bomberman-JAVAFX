@@ -1,11 +1,12 @@
 package ir.ac.kntu;
 import ir.ac.kntu.scene.Game;
-import ir.ac.kntu.scene.GameMap;
+import ir.ac.kntu.util.GameMap;
 import ir.ac.kntu.scene.Menu;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
 
 
 public class Main extends Application {
@@ -77,3 +78,4 @@ public class Main extends Application {
     }
 
 }
+

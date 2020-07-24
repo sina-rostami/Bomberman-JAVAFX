@@ -1,6 +1,7 @@
 package ir.ac.kntu.scene;
 
 import ir.ac.kntu.items.*;
+import ir.ac.kntu.util.GameMap;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.HPos;
