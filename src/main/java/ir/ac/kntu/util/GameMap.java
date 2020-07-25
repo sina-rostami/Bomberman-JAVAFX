@@ -146,7 +146,7 @@ public class GameMap {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Map (cancel for default)");
         File f1 = fileChooser.showOpenDialog(new Stage());
-        file = f1 != null ? f1 : new File("src/main/resources/maps/map2.txt");
+        file = f1 != null ? f1 : new File("src/main/resources/maps/map1.txt");
         if (file.exists()) {
             try (Scanner in = new Scanner(file)) {
                 items = new int[in.nextInt()][in.nextInt()];

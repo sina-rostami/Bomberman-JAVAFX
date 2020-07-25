@@ -10,10 +10,10 @@
 https://docs.google.com/document/d/15UzOEW1eBvZoYSaAv8tZZmyHuoQ9L5amEK9oyFmQ78k/edit?usp=sharing
 
 # Presention Video
-[Project Description]('YOUR_VIDEO_URL')
+[Project Description](http://uupload.ir/view/1tc0_presentation.mkv/)
 
 # Images
-take screenshots from the outputs of your program and save it as images or gif into the images
+screenshots of menu and game are in images directory.
 
 # JavaFx 11
 <ul>

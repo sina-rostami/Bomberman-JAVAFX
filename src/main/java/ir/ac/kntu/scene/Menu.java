@@ -36,6 +36,7 @@ public class Menu extends Application {
         pane = new BorderPane();
         scene = new Scene(pane, Color.GREEN);
         stage.setScene(scene);
+        stage.setTitle("BOMBERMAN");
         Node logo = new ImageView(new Image("assets/menu/logo.gif", 500, 200, false, true));
         pane.setTop(logo);
         BorderPane.setAlignment(logo, Pos.CENTER);
