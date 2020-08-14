@@ -18,16 +18,6 @@ screenshots of menu and game are in images directory.
 # JavaFx 11
 <ul>
 <li>
-clone in your computer: 
-
-```
-git clone http://apj.ce.kntu.ac.ir/git/<YOUR_REPO_URL>
-cd YOUR_REPO_URL
-```
-
-
-</li>
-<li>
     <p>Run Javafx GUI</p>
     
 ```
